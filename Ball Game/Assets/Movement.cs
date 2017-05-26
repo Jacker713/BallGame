@@ -5,11 +5,14 @@ public class Movement : MonoBehaviour {
 
     public Rigidbody rb;
 
-    public float speed;
+    public static float speed;
+
+    public static float orignalSpeed;
 
 	// Use this for initialization
 	void Start () {
         rb = GetComponent<Rigidbody>();
+        orignalSpeed = speed;
 	}
 	
 	// Update is called once per frame
@@ -21,4 +24,19 @@ public class Movement : MonoBehaviour {
 
         rb.AddForce(movement * speed, ForceMode.Force);
 	}
+
+    public static void setSpeed(float s)
+    {
+        speed = s;
+    }
+
+    public static float getSpeed()
+    {
+        return speed;
+    }
+
+    public static float getOriginalSpeed()
+    {
+        return orignalSpeed;
+    }
 }
