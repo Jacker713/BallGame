@@ -47,9 +47,9 @@
   </ItemGroup>
   <ItemGroup>
      <Compile Include="Assets\CameraController.cs" />
+     <Compile Include="Assets\Goal.cs" />
      <Compile Include="Assets\Movement.cs" />
      <Compile Include="Assets\PlayerNode.cs" />
-     <Compile Include="Assets\PropertyChanger.cs" />
  <Reference Include="UnityEngine.UI">
  <HintPath>G:/Program Files/Unity/Editor/Data/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll</HintPath>
  </Reference>

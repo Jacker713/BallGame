@@ -5,7 +5,13 @@ public class Movement : MonoBehaviour {
 
     public Rigidbody rb;
 
-    public Material material;
+    public Material BaseMaterial;
+    public Material Red;
+    public Material Blue;
+    public Material Green;
+
+    public float speedIncrease = 2.0f;
+
     public float jumpPower = 5.0f;
 
     private Vector3 physics;
@@ -14,24 +20,28 @@ public class Movement : MonoBehaviour {
     public bool quick;
     public bool invert;
 
-    public static float speed;
+    public float speed;
 
-    public static float orignalSpeed;
+    public static float originalSpeed;
+
+    public Renderer rend;
 
 	// Use this for initialization
 	void Start () {
         rb = GetComponent<Rigidbody>();
-        orignalSpeed = speed;
+         originalSpeed = speed;
         jump = false;
         quick = false;
         invert = false;
         physics = Physics.gravity;
+        rend = GetComponent<Renderer>();
+        rend.enabled = true;
     }
 
 
     void Update()
     {
-
+        //jump
         if (Input.GetKeyDown(KeyCode.R))
         {
             jump = !jump;
@@ -39,12 +49,12 @@ public class Movement : MonoBehaviour {
             invert = false;
 
             if (jump)
-                material.SetColor("_red", Color.red);
+                rend.sharedMaterial = Red;
             else
-                material.SetColor("_white", Color.white);
-
+                rend.sharedMaterial = BaseMaterial;
         }
 
+        //speed
         if (Input.GetKeyDown(KeyCode.B))
         {
             quick = !quick;
@@ -53,37 +63,39 @@ public class Movement : MonoBehaviour {
 
             if (quick)
             {
-                setSpeed((float)(Movement.getSpeed()) * 2.0f);
-                material.SetColor("_green", Color.green);
+                speed = ((float)(speed) * speedIncrease);
+                rend.sharedMaterial = Blue;
             }
             else
-                material.SetColor("_white", Color.white);
+                rend.sharedMaterial = BaseMaterial;
 
         }
 
+        //gravity
         if (Input.GetKeyDown(KeyCode.G))
         {
             invert = !invert;
             quick = false;
             jump = false;
 
-            if (quick)
-                material.SetColor("_blue", Color.blue);
+            if (invert)
+                rend.sharedMaterial = Green;
             else
-                material.SetColor("_white", Color.white);
+                rend.sharedMaterial = BaseMaterial;
 
         }
+
 
         if (Input.GetKeyDown(KeyCode.Space))
         {
             if (jump)
-                rb.AddForce(new Vector3(0, jumpPower, 0));
+                rb.AddForce(Vector3.up * jumpPower);
             else if (invert)
                 Physics.gravity *= -1;
         }
 
         if (!quick)
-            setSpeed(getOriginalSpeed());
+            speed = originalSpeed;
         if (!invert)
             Physics.gravity = physics;
 
@@ -101,18 +113,4 @@ public class Movement : MonoBehaviour {
         rb.AddForce(movement * speed, ForceMode.Force);
 	}
 
-    public static void setSpeed(float s)
-    {
-        speed = s;
-    }
-
-    public static float getSpeed()
-    {
-        return speed;
-    }
-
-    public static float getOriginalSpeed()
-    {
-        return orignalSpeed;
-    }
 }
